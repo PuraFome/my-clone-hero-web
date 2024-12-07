@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escolher Música</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div id="choose-music">
+        <h1>Escolha uma Música</h1>
+        <input type="text" id="youtube-url" placeholder="Cole o link do YouTube aqui">
+        <button onclick="startGame()">Iniciar Jogo</button>
+    </div>
+    <script>
+        function startGame() {
+            const url = document.getElementById('youtube-url').value;
+            const videoId = url.split('v=')[1].split('&')[0];
+            window.location.href = `game.html?videoId=${videoId}`;
+        }
+    </script>
+</body>
+</html>

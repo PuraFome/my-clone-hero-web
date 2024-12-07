@@ -1,0 +1,87 @@
+/* styles/main.css */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #000;
+}
+
+#choose-music {
+    text-align: center;
+    color: white;
+}
+
+#choose-music input {
+    width: 300px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+#choose-music button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#game {
+    position: relative;
+    width: 600px;
+    height: 400px;
+    background-color: #222;
+}
+
+#youtube-player {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#notes {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.note {
+    position: absolute;
+    bottom: 100%;
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    animation: fall 2s linear infinite;
+}
+
+@keyframes fall {
+    to {
+        bottom: 0;
+    }
+}
+
+#hit-bar {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #444;
+}
+
+.hit-zone {
+    width: 50px;
+    height: 50px;
+    background-color: #666;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 20px;
+    border-radius: 50%;
+}
