@@ -37,7 +37,9 @@ function setupAudioAnalysis() {
     bufferLength = analyser.frequencyBinCount;
     dataArray = new Uint8Array(bufferLength);
 
-    source = audioContext.createMediaElementSource(player.getIframe());
+    const videoElement = document.querySelector('iframe');
+    const mediaElement = new Audio(videoElement.src);
+    source = audioContext.createMediaElementSource(mediaElement);
     source.connect(analyser);
     analyser.connect(audioContext.destination);
 }

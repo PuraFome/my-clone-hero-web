@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Escolher Música</title>
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
     <div id="choose-music">
@@ -16,7 +17,7 @@
         function startGame() {
             const url = document.getElementById('youtube-url').value;
             const videoId = url.split('v=')[1].split('&')[0];
-            window.location.href = `game.html?videoId=${videoId}`;
+            window.location.href = `./game.html?videoId=${videoId}`;
         }
     </script>
 </body>
