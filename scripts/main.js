@@ -87,14 +87,15 @@ function getRandomKey() {
 function handleKeyPress(event) {
     const key = event.keyCode;
     const hitZone = document.querySelector(`.hit-zone[data-key="${key}"]`);
-    if (hitZone) {
+    const hitSphere = document.querySelector(`.hit-sphere[data-key="${key}"]`);
+    if (hitZone && hitSphere) {
         const notes = document.getElementsByClassName('note');
         let hit = false;
         Array.from(notes).forEach(note => {
             if (note.dataset.key == key) {
-                const noteReact = note.getBoundingClientRect();
-                const hitZoneReact = hitZone.getBoundingClientRect();
-                if(noteReact.bottom >= hitZoneReact.top && noteReact.bottom <= hitZoneReact.bottom){
+                const noteRect = note.getBoundingClientRect();
+                const hitSphereRect = hitSphere.getBoundingClientRect();
+                if (noteRect.bottom >= hitSphereRect.top && noteRect.bottom <= hitSphereRect.bottom) {
                     note.remove();
                     hit = true;
                     score += Math.floor(multiplier);
@@ -109,7 +110,7 @@ function handleKeyPress(event) {
             multiplier = 1;
             updateMultiplier();
         }
-        setTimeout(()=>{
+        setTimeout(() => {
             hitZone.style.backgroundColor = '#666';
         }, 200);
     }

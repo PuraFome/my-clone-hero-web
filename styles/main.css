@@ -30,6 +30,7 @@ body {
     width: 600px;
     height: 400px;
     background-color: #222;
+    margin-bottom: 50px; /* Adiciona espaço para o hit-bar */
 }
 
 #youtube-player {
@@ -64,8 +65,9 @@ body {
 }
 
 #hit-bar {
-    position: absolute;
-    bottom: 0;
+    position: absolute; /* Altera a posição para absoluta */
+    top: 100%; /* Move o hit-bar para logo abaixo do quadrado do vídeo */
+    left: 0;
     width: 100%;
     height: 50px;
     display: flex;
@@ -84,6 +86,19 @@ body {
     color: white;
     font-size: 20px;
     border-radius: 50%;
+}
+
+.hit-sphere {
+    position: absolute;
+    bottom: 0;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 2px solid #fff;
+    border-radius: 50%;
+    left: 50%; /* Centraliza a esfera */
+    transform: translate(-50%, 0); /* Ajusta a posição para centralizar */
+    z-index: 10;
 }
 
 #score {
