@@ -1,9 +1,6 @@
 let player;
-let audioContext;
-let analyser;
-let source;
-let dataArray;
-let bufferLength;
+let noteInterval;
+let isPlaying = false;
 
 function onYouTubeIframeAPIReady() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -27,6 +24,9 @@ function onPlayerReady(event) {
 function onPlayerStateChange(event) {
     if (event.data == YT.PlayerState.PLAYING) {
         startGame();
+        resumeNotes();
+    } else if (event.data == YT.PlayerState.PAUSED || event.data == YT.PlayerState.ENDED) {
+        stopGame();
     }
 }
 
@@ -43,8 +43,15 @@ function setupAudioAnalysis() {
 }
 
 function startGame() {
-    setInterval(createNote, 1000); // Cria uma nova nota a cada segundo
+    isPlaying = true;
+    noteInterval = setInterval(createNote, 1000); // Ajuste o intervalo conforme necessário
     document.addEventListener('keydown', handleKeyPress);
+}
+
+function stopGame() {
+    isPlaying = false;
+    clearInterval(noteInterval);
+    pauseNotes();
 }
 
 const lines = {
@@ -55,10 +62,11 @@ const lines = {
 }
 
 function createNote() {
+    if (!isPlaying) return;
     const note = document.createElement('div');
     note.className = 'note';
     const key = getRandomKey();
-    note.dataset.ket = key;
+    note.dataset.key = key;
     note.style.left = lines[key];
     document.getElementById('notes').appendChild(note);
 }
@@ -68,19 +76,20 @@ function getRandomKey() {
     return keys[Math.floor(Math.random() * keys.length)];
 }
 
-
 function handleKeyPress(event) {
     const key = event.keyCode;
     const hitZone = document.querySelector(`.hit-zone[data-key="${key}"]`);
     if (hitZone) {
-        const notes = document.querySelectorAll(`.note[data-key="${key}"]`);
+        const notes = document.getElementsByClassName('note');
         let hit = false;
-        notes.forEach(note => {
-            const noteReact = note.getBoundingClientRect();
-            const hitZoneReact = note.getBoundingClientRect();
-            if(noteReact.bottom >= hitZoneReact.top && noteReact.bottom <= hitZoneReact.bottom){
-                note.remove();
-                hit = true;
+        Array.from(notes).forEach(note => {
+            if (note.dataset.key == key) {
+                const noteReact = note.getBoundingClientRect();
+                const hitZoneReact = hitZone.getBoundingClientRect();
+                if(noteReact.bottom >= hitZoneReact.top && noteReact.bottom <= hitZoneReact.bottom){
+                    note.remove();
+                    hit = true;
+                }
             }
         });
         hitZone.style.backgroundColor = hit ? 'green' : 'red';
@@ -88,4 +97,18 @@ function handleKeyPress(event) {
             hitZone.style.backgroundColor = '#666';
         }, 200);
     }
+}
+
+function pauseNotes() {
+    const notes = document.getElementsByClassName('note');
+    Array.from(notes).forEach(note => {
+        note.style.animationPlayState = 'paused';
+    });
+}
+
+function resumeNotes() {
+    const notes = document.getElementsByClassName('note');
+    Array.from(notes).forEach(note => {
+        note.style.animationPlayState = 'running';
+    });
 }
