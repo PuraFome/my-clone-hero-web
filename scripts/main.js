@@ -1,6 +1,8 @@
 let player;
 let noteInterval;
 let isPlaying = false;
+let score = 0;
+let multiplier = 1;
 
 function onYouTubeIframeAPIReady() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -46,6 +48,10 @@ function setupAudioAnalysis() {
 
 function startGame() {
     isPlaying = true;
+    score = 0;
+    multiplier = 1;
+    updateScore();
+    updateMultiplier();
     noteInterval = setInterval(createNote, 1000); // Ajuste o intervalo conforme necessário
     document.addEventListener('keydown', handleKeyPress);
 }
@@ -91,14 +97,31 @@ function handleKeyPress(event) {
                 if(noteReact.bottom >= hitZoneReact.top && noteReact.bottom <= hitZoneReact.bottom){
                     note.remove();
                     hit = true;
+                    score += Math.floor(multiplier);
+                    multiplier = Math.min(multiplier + (multiplier < 2 ? 0.2 : 0.1), 3);
+                    updateScore();
+                    updateMultiplier();
                 }
             }
         });
         hitZone.style.backgroundColor = hit ? 'green' : 'red';
+        if (!hit) {
+            multiplier = 1;
+            updateMultiplier();
+        }
         setTimeout(()=>{
             hitZone.style.backgroundColor = '#666';
         }, 200);
     }
+}
+
+function updateScore() {
+    document.getElementById('score').innerText = `Score: ${score}`;
+}
+
+function updateMultiplier() {
+    const multiplierBar = document.getElementById('multiplier-bar');
+    multiplierBar.style.height = `${(multiplier - 1) * 50}%`;
 }
 
 function pauseNotes() {

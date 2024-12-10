@@ -85,3 +85,32 @@ body {
     font-size: 20px;
     border-radius: 50%;
 }
+
+#score {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 24px;
+}
+
+#multiplier {
+    position: absolute;
+    top: 50%;
+    right: -40px;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 100px;
+    background-color: #444;
+    border: 1px solid #fff;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+#multiplier-bar {
+    width: 100%;
+    background-color: green;
+    height: 0;
+    transition: height 0.2s;
+}
