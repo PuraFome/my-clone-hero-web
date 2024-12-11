@@ -1,4 +1,3 @@
-/* styles/main.css */
 body {
     display: flex;
     justify-content: center;
@@ -13,10 +12,13 @@ body {
     color: white;
 }
 
-#choose-music input {
-    width: 300px;
+#choose-music input, #choose-music button {
     padding: 10px;
     margin: 10px 0;
+}
+
+#choose-music input {
+    width: 300px;
 }
 
 #choose-music button {
@@ -30,10 +32,10 @@ body {
     width: 600px;
     height: 400px;
     background-color: #222;
-    margin-bottom: 50px; /* Adiciona espaço para o hit-bar */
+    margin-bottom: 50px;
 }
 
-#youtube-player {
+#youtube-player, #notes {
     position: absolute;
     top: 0;
     left: 0;
@@ -42,10 +44,7 @@ body {
 }
 
 #notes {
-    position: absolute;
     bottom: 0;
-    width: 100%;
-    height: 100%;
     pointer-events: none;
 }
 
@@ -58,31 +57,18 @@ body {
     animation: fall 2s linear infinite;
 }
 
-.note[data-key="83"] {
-    background-color: green;
-}
-
-.note[data-key="68"] {
-    background-color: red;
-}
-
-.note[data-key="74"] {
-    background-color: yellow;
-}
-
-.note[data-key="75"] {
-    background-color: blue;
-}
+.note[data-key="83"] { background-color: green; }
+.note[data-key="68"] { background-color: red; }
+.note[data-key="74"] { background-color: yellow; }
+.note[data-key="75"] { background-color: blue; }
 
 @keyframes fall {
-    to {
-        bottom: 0;
-    }
+    to { bottom: 0; }
 }
 
 #hit-bar {
-    position: absolute; /* Altera a posição para absoluta */
-    top: 100%; /* Move o hit-bar para logo abaixo do quadrado do vídeo */
+    position: absolute;
+    top: 100%;
     left: 0;
     width: 100%;
     height: 50px;
@@ -92,62 +78,38 @@ body {
     background-color: #444;
 }
 
-.hit-zone {
+.hit-zone, .hit-sphere {
     width: 50px;
     height: 50px;
-    background-color: #666;
+    border-radius: 50%;
+}
+
+.hit-zone {
     display: flex;
     justify-content: center;
     align-items: center;
     color: white;
     font-size: 20px;
-    border-radius: 50%;
 }
 
-.hit-zone[data-key="83"] {
-    background-color: rgba(0, 128, 0, 0.5); /* Verde com 50% de transparência */
-}
-
-.hit-zone[data-key="68"] {
-    background-color: rgba(255, 0, 0, 0.5); /* Vermelho com 50% de transparência */
-}
-
-.hit-zone[data-key="74"] {
-    background-color: rgba(255, 255, 0, 0.5); /* Amarelo com 50% de transparência */
-}
-
-.hit-zone[data-key="75"] {
-    background-color: rgba(0, 0, 255, 0.5); /* Azul com 50% de transparência */
-}
+.hit-zone[data-key="83"] { background-color: green; }
+.hit-zone[data-key="68"] { background-color: red; }
+.hit-zone[data-key="74"] { background-color: yellow; }
+.hit-zone[data-key="75"] { background-color: blue; }
 
 .hit-sphere {
     position: absolute;
     bottom: 0;
-    width: 50px;
-    height: 50px;
-    background-color: rgba(255, 255, 255, 0.2);
     border: 2px solid #fff;
-    border-radius: 50%;
-    left: 50%; /* Centraliza a esfera */
-    transform: translate(-50%, 0); /* Ajusta a posiç��o para centralizar */
+    left: 50%;
+    transform: translate(-50%, 0);
     z-index: 10;
 }
 
-.hit-sphere[data-key="83"] {
-    background-color: rgba(0, 128, 0, 0.5); /* Verde com 50% de transparência */
-}
-
-.hit-sphere[data-key="68"] {
-    background-color: rgba(255, 0, 0, 0.5); /* Vermelho com 50% de transparência */
-}
-
-.hit-sphere[data-key="74"] {
-    background-color: rgba(255, 255, 0, 0.5); /* Amarelo com 50% de transparência */
-}
-
-.hit-sphere[data-key="75"] {
-    background-color: rgba(0, 0, 255, 0.5); /* Azul com 50% de transparência */
-}
+.hit-sphere[data-key="83"] { background-color: rgba(0, 128, 0, 0.5); }
+.hit-sphere[data-key="68"] { background-color: rgba(255, 0, 0, 0.5); }
+.hit-sphere[data-key="74"] { background-color: rgba(255, 255, 0, 0.5); }
+.hit-sphere[data-key="75"] { background-color: rgba(0, 0, 255, 0.5); }
 
 #score {
     position: absolute;

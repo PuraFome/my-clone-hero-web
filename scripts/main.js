@@ -1,12 +1,7 @@
-let player;
-let noteInterval;
-let isPlaying = false;
-let score = 0;
-let multiplier = 1;
+let player, noteInterval, isPlaying = false, score = 0, multiplier = 1;
 
 function onYouTubeIframeAPIReady() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const videoId = urlParams.get('videoId');
+    const videoId = new URLSearchParams(window.location.search).get('videoId');
     player = new YT.Player('youtube-player', {
         height: '390',
         width: '640',
@@ -33,15 +28,15 @@ function onPlayerStateChange(event) {
 }
 
 function setupAudioAnalysis() {
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    analyser = audioContext.createAnalyser();
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const analyser = audioContext.createAnalyser();
     analyser.fftSize = 256;
-    bufferLength = analyser.frequencyBinCount;
-    dataArray = new Uint8Array(bufferLength);
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
 
     const videoElement = document.querySelector('iframe');
     const mediaElement = new Audio(videoElement.src);
-    source = audioContext.createMediaElementSource(mediaElement);
+    const source = audioContext.createMediaElementSource(mediaElement);
     source.connect(analyser);
     analyser.connect(audioContext.destination);
 }
@@ -52,7 +47,7 @@ function startGame() {
     multiplier = 1;
     updateScore();
     updateMultiplier();
-    noteInterval = setInterval(createNote, 1000); // Ajuste o intervalo conforme necessário
+    noteInterval = setInterval(createNote, 1000);
     document.addEventListener('keydown', handleKeyPress);
 }
 
@@ -62,12 +57,7 @@ function stopGame() {
     pauseNotes();
 }
 
-const lines = {
-    83: '11%', // S
-    68: '36%', // D
-    74: '61%', // J
-    75: '86%'  // K
-}
+const lines = { 83: '11%', 68: '36%', 74: '61%', 75: '86%' };
 
 function createNote() {
     if (!isPlaying) return;
@@ -80,7 +70,7 @@ function createNote() {
 }
 
 function getRandomKey() {
-    const keys = Object.keys(lines)
+    const keys = Object.keys(lines);
     return keys[Math.floor(Math.random() * keys.length)];
 }
 
@@ -110,9 +100,7 @@ function handleKeyPress(event) {
             multiplier = 1;
             updateMultiplier();
         }
-        setTimeout(() => {
-            hitZone.style.backgroundColor = '#666';
-        }, 200);
+        setTimeout(() => { hitZone.style.backgroundColor = '#666'; }, 200);
     }
 }
 
@@ -121,20 +109,17 @@ function updateScore() {
 }
 
 function updateMultiplier() {
-    const multiplierBar = document.getElementById('multiplier-bar');
-    multiplierBar.style.height = `${(multiplier - 1) * 50}%`;
+    document.getElementById('multiplier-bar').style.height = `${(multiplier - 1) * 50}%`;
 }
 
 function pauseNotes() {
-    const notes = document.getElementsByClassName('note');
-    Array.from(notes).forEach(note => {
+    Array.from(document.getElementsByClassName('note')).forEach(note => {
         note.style.animationPlayState = 'paused';
     });
 }
 
 function resumeNotes() {
-    const notes = document.getElementsByClassName('note');
-    Array.from(notes).forEach(note => {
+    Array.from(document.getElementsByClassName('note')).forEach(note => {
         note.style.animationPlayState = 'running';
     });
 }
