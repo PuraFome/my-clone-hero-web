@@ -54,8 +54,24 @@ body {
     bottom: 100%;
     width: 20px;
     height: 20px;
-    background-color: red;
+    border-radius: 50%;
     animation: fall 2s linear infinite;
+}
+
+.note[data-key="83"] {
+    background-color: green;
+}
+
+.note[data-key="68"] {
+    background-color: red;
+}
+
+.note[data-key="74"] {
+    background-color: yellow;
+}
+
+.note[data-key="75"] {
+    background-color: blue;
 }
 
 @keyframes fall {
@@ -88,6 +104,22 @@ body {
     border-radius: 50%;
 }
 
+.hit-zone[data-key="83"] {
+    background-color: rgba(0, 128, 0, 0.5); /* Verde com 50% de transparência */
+}
+
+.hit-zone[data-key="68"] {
+    background-color: rgba(255, 0, 0, 0.5); /* Vermelho com 50% de transparência */
+}
+
+.hit-zone[data-key="74"] {
+    background-color: rgba(255, 255, 0, 0.5); /* Amarelo com 50% de transparência */
+}
+
+.hit-zone[data-key="75"] {
+    background-color: rgba(0, 0, 255, 0.5); /* Azul com 50% de transparência */
+}
+
 .hit-sphere {
     position: absolute;
     bottom: 0;
@@ -97,8 +129,24 @@ body {
     border: 2px solid #fff;
     border-radius: 50%;
     left: 50%; /* Centraliza a esfera */
-    transform: translate(-50%, 0); /* Ajusta a posição para centralizar */
+    transform: translate(-50%, 0); /* Ajusta a posiç��o para centralizar */
     z-index: 10;
+}
+
+.hit-sphere[data-key="83"] {
+    background-color: rgba(0, 128, 0, 0.5); /* Verde com 50% de transparência */
+}
+
+.hit-sphere[data-key="68"] {
+    background-color: rgba(255, 0, 0, 0.5); /* Vermelho com 50% de transparência */
+}
+
+.hit-sphere[data-key="74"] {
+    background-color: rgba(255, 255, 0, 0.5); /* Amarelo com 50% de transparência */
+}
+
+.hit-sphere[data-key="75"] {
+    background-color: rgba(0, 0, 255, 0.5); /* Azul com 50% de transparência */
 }
 
 #score {
