@@ -8,6 +8,7 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
+    <button id="back-button" onclick="goBack()">Voltar</button>
     <div id="game">
         <div id="score">Score: 0</div>
         <div id="multiplier">
@@ -29,5 +30,18 @@
     </div>
     <script src="https://www.youtube.com/iframe_api"></script>
     <script src="scripts/main.js"></script>
+    <script>
+        function goBack() {
+            // Limpar dados da música anterior
+            if (player) {
+                player.stopVideo();
+                player.destroy();
+            }
+            clearInterval(noteInterval);
+            document.getElementById('notes').innerHTML = '';
+            sessionStorage.removeItem('videoId');
+            window.location.href = 'index.html';
+        }
+    </script>
 </body>
 </html>

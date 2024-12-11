@@ -1,17 +1,33 @@
 let player, noteInterval, isPlaying = false, score = 0, multiplier = 1;
 
 function onYouTubeIframeAPIReady() {
-    const videoId = new URLSearchParams(window.location.search).get('videoId');
-    player = new YT.Player('youtube-player', {
-        height: '390',
-        width: '640',
-        videoId: videoId,
-        events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-        }
-    });
+    const videoId = sessionStorage.getItem('videoId');
+    if (videoId) {
+        player = new YT.Player('youtube-player', {
+            height: '390',
+            width: '640',
+            videoId: videoId,
+            events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+            }
+        });
+    } else {
+        alert('Nenhum vídeo foi selecionado. Por favor, volte e escolha uma música.');
+        window.location.href = 'index.html';
+    }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof YT === 'undefined' || typeof YT.Player === 'undefined') {
+        const tag = document.createElement('script');
+        tag.src = 'https://www.youtube.com/iframe_api';
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    } else {
+        onYouTubeIframeAPIReady();
+    }
+});
 
 function onPlayerReady(event) {
     event.target.playVideo();

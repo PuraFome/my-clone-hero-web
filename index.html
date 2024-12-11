@@ -11,14 +11,21 @@
     <div id="choose-music">
         <h1>Escolha uma Música</h1>
         <input type="text" id="youtube-url" placeholder="Cole o link do YouTube aqui">
-        <button onclick="startGame()">Iniciar Jogo</button>
+        <button id="start-button">Iniciar Jogo</button>
     </div>
     <script>
-        function startGame() {
-            const url = document.getElementById('youtube-url').value;
-            const videoId = url.split('v=')[1].split('&')[0];
-            window.location.href = `./game.html?videoId=${videoId}`;
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('start-button').addEventListener('click', function() {
+                const url = document.getElementById('youtube-url').value;
+                const videoId = url.split('v=')[1]?.split('&')[0];
+                if (videoId) {
+                    sessionStorage.setItem('videoId', videoId);
+                    window.location.href = './game.html';
+                } else {
+                    alert('Por favor, insira um link válido do YouTube.');
+                }
+            });
+        });
     </script>
 </body>
 </html>
