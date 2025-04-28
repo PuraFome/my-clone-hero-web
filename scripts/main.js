@@ -1,4 +1,4 @@
-let player, noteInterval, isPlaying = false, score = 0, multiplier = 1;
+let player, isPlaying = false, score = 0, multiplier = 1;
 
 function onYouTubeIframeAPIReady() {
     const videoId = sessionStorage.getItem('videoId');
@@ -37,7 +37,6 @@ function onPlayerReady(event) {
 function onPlayerStateChange(event) {
     if (event.data == YT.PlayerState.PLAYING) {
         startGame();
-        resumeNotes();
     } else if (event.data == YT.PlayerState.PAUSED || event.data == YT.PlayerState.ENDED) {
         stopGame();
     }
@@ -46,7 +45,7 @@ function onPlayerStateChange(event) {
 function setupAudioAnalysis() {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     const analyser = audioContext.createAnalyser();
-    analyser.fftSize = 256;
+    analyser.fftSize = 2048;
     const bufferLength = analyser.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
 
@@ -55,6 +54,31 @@ function setupAudioAnalysis() {
     const source = audioContext.createMediaElementSource(mediaElement);
     source.connect(analyser);
     analyser.connect(audioContext.destination);
+
+    function analyzeAudio() {
+        analyser.getByteTimeDomainData(dataArray);
+        detectBeats(dataArray);
+        if (isPlaying) {
+            requestAnimationFrame(analyzeAudio);
+        }
+    }
+
+    analyzeAudio();
+}
+
+function detectBeats(dataArray) {
+    const threshold = 128; // Exemplo de limiar para detecção de batidas
+    let beatDetected = false;
+    for (let i = 0; i < dataArray.length; i++) {
+        if (dataArray[i] > threshold) {
+            beatDetected = true;
+            break;
+        }
+    }
+    if (beatDetected) {
+        console.log('Beat detected, creating note');
+        createNote();
+    }
 }
 
 function startGame() {
@@ -63,13 +87,11 @@ function startGame() {
     multiplier = 1;
     updateScore();
     updateMultiplier();
-    noteInterval = setInterval(createNote, 1000);
     document.addEventListener('keydown', handleKeyPress);
 }
 
 function stopGame() {
     isPlaying = false;
-    clearInterval(noteInterval);
     pauseNotes();
 }
 
@@ -83,6 +105,7 @@ function createNote() {
     note.dataset.key = key;
     note.style.left = lines[key];
     document.getElementById('notes').appendChild(note);
+    console.log('Note created at position:', note.style.left);
 }
 
 function getRandomKey() {
